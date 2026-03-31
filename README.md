@@ -340,16 +340,42 @@ Kullanıcı Kayıt Formunu Doldurur
 
 ## 📄 Lisans
 
-Bu proje açık kaynaklıdır. Herhangi bir ticari veya kişisel amaçla kullanılabilir. Tamamen proje yapma amaçlı geliştirilmiştir.
+
+
+Bu proje açık kaynaklıdır. Herhangi bir ticari veya kişisel amaçla kullanılabilir,Tamamen Proje Yapma Amaçlı Kullanılmıştır.
+
+
 
 ---
 
+
+
 ## 📫 İletişim
 
+
+
 Proje hakkında sorularınız, önerileriniz ya da katkı istekleriniz için benimle iletişime geçebilirsiniz:
+
+
 
 - 🔗 GitHub: [@BerkayGenceroglu](https://github.com/BerkayGenceroglu)
 
 ---
 
+
+
+## 💬 Son Söz
+
+
+
+<img width="699" height="680" alt="image" src="https://github.com/user-attachments/assets/afc1d776-50f9-4b6e-85d2-63f8e706f53f" />
+
+
+
+
+
 **İyi kodlamalar! 🚀**
+
+
+
+---

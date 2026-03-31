@@ -245,29 +245,50 @@ E-posta / kullanıcı adı ve şifre ile güvenli giriş ekranı.
 E-postası doğrulanmamış kullanıcılara uyarı mesajı gösterilir.
 <img width="811" height="737" alt="image" src="https://github.com/user-attachments/assets/a6e090ed-ec5a-41a4-8504-9c9acb99881e" />
 
+<img width="896" height="676" alt="ForgetPassword" src="https://github.com/user-attachments/assets/eda8680f-53cc-432e-882b-af50d35275f8" />
+
+<img width="1624" height="667" alt="notikaşifreonay" src="https://github.com/user-attachments/assets/27780337-6fd5-429f-93cd-b0c1edf163c9" />
+
+<img width="966" height="728" alt="newpassword" src="https://github.com/user-attachments/assets/8f232faa-2e4e-4034-82a6-081a309396c6" />
+
+<img width="1263" height="552" alt="google2" src="https://github.com/user-attachments/assets/6aab71db-cef6-47a4-8ae2-97aa48e47fd1" />
+
+<img width="1198" height="662" alt="google" src="https://github.com/user-attachments/assets/78555aad-1a86-4944-95e5-41815b3006d9" />
+
+---
+### 📥 Profilim (Profile)
+Kullanıcının bilgilerini içeren kısımdır
+<img width="1612" height="955" alt="profile" src="https://github.com/user-attachments/assets/184c9f6d-1913-4271-bb88-f5e70c699db4" />
+
 
 
 ---
-
 ### 📥 Gelen Kutusu (Inbox)
 Kullanıcıya gelen tüm maillerin listelendiği ekran.
 Okundu/okunmadı durumu, gönderici ve konu bilgisi görüntülenir.
+okundu okunmadı soldan tıklayarak yapabiliriz
+<img width="1602" height="956" alt="gelen kutusu" src="https://github.com/user-attachments/assets/6b7e7ffc-3655-43bf-b326-58e80daf542b" />
+mesaj içeriğine tıklayınca mesaj açılır
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1280" height="1014" alt="mesaj detail2" src="https://github.com/user-attachments/assets/7e51ca5e-15b1-4400-bba0-7456d2ea4e31" />
 
 ---
 
 ### 📤 Giden Kutusu (Sent)
 Kullanıcının gönderdiği tüm maillerin listelendiği ekran.
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1280" height="833" alt="image" src="https://github.com/user-attachments/assets/9fcc14e8-cd35-48cf-bfde-819fb7872a90" />
+
 
 ---
 
 ### 📝 Taslaklar (Drafts)
 Kullanıcının kaydettiği taslak maillerin listelendiği ve düzenlenebildiği ekran.
+<img width="1471" height="953" alt="taslak list" src="https://github.com/user-attachments/assets/fcd890b9-a147-4c51-b83d-ff73ce83b998" />
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1247" height="826" alt="Taslak Olarak Kaydet" src="https://github.com/user-attachments/assets/cfc0a2c3-1696-4b9c-8191-b714fc83cda7" />
+
+<img width="1280" height="842" alt="taslak düzenle" src="https://github.com/user-attachments/assets/70ad4c91-b7a2-444e-969c-1965f5b5ff6f" />
 
 ---
 
@@ -275,10 +296,18 @@ Kullanıcının kaydettiği taslak maillerin listelendiği ve düzenlenebildiği
 Silinen maillerin kalıcı silinmeden önce tutulduğu ekran.
 Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1613" height="957" alt="trashbox" src="https://github.com/user-attachments/assets/0a69cd23-eb4f-46a1-936a-9b12964e76a2" />
+
 
 ---
 
+###  Kullanıcı Listesi
+kullanıcılar listelenir
+<img width="1280" height="755" alt="userlist 2" src="https://github.com/user-attachments/assets/96603a51-2ebe-44d6-bd2b-2f624c3914f4" />
+
+
+
+---
 ### 🤖 Toxiclik Analizi
 Kullanıcı yorumlarının ToxicBERT tarafından analiz edildiği ve sonuçların görüntülendiği ekran.
 Her yoruma ait skor ve etiket (Temiz / Şüpheli / Zararlı) admin panelinden takip edilebilir.

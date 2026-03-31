@@ -230,7 +230,9 @@ Kullanıcı Kayıt Formunu Doldurur
 Kullanıcıların sisteme kayıt olabilmesi için Ad, Soyad, Kullanıcı Adı, E-posta ve Şifre bilgilerini girdiği formdur.
 Tüm alanlar ModelState ile doğrulanır; kayıt sonrası doğrulama e-postası otomatik olarak gönderilir.
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+> <img width="1381" height="965" alt="Register" src="https://github.com/user-attachments/assets/8cec2f29-fd21-47c5-811c-3bc95f4585a0" />
+
+
 
 ---
 

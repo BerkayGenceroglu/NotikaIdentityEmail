@@ -1,8 +1,7 @@
 <h1 align="center">📬 Notika — Gerçek Zamanlı Mail Yönetim & Kimlik Doğrulama Sistemi</h1>
 
 <p align="center">
-  ASP.NET Core MVC, ASP.NET Core Identity ve ToxicBERT yapay zeka modeli ile geliştirilmiş;
-  tam özellikli posta kutusu yönetimi, rol tabanlı yetkilendirme ve zehirli içerik tespiti sunan modern bir web uygulaması
+  ASP.NET Core MVC ve ASP.NET Core Identity altyapısı ile geliştirilmiş, ToxicBERT yapay zekâ modeli entegrasyonu sayesinde kullanıcı yorumları ve mesajlar üzerinde zehirli içerik tespiti yapabilen; gelen kutusu, giden kutusu, taslaklar ve silinenler gibi tam özellikli mail yönetimi, rol tabanlı yetkilendirme, detaylı authorization kontrolleri, ModelState doğrulamaları ve admin paneli ile kullanıcı ve yetki yönetimi sunan modern, güvenli ve ölçeklenebilir bir web uygulamasıdır. Redis ile hızlı veri erişimi ve cache mekanizması, çoklu veritabanı desteği (MSSQL, PostgreSQL, MongoDB) ve Docker desteği sayesinde uygulama hem performanslı hem de esnek bir altyapıya sahiptir.
 </p>
 
 ---

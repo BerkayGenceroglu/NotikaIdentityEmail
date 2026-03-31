@@ -291,6 +291,7 @@ Kullanıcının kaydettiği taslak maillerin listelendiği ve düzenlenebildiği
 <img width="1247" height="826" alt="Taslak Olarak Kaydet" src="https://github.com/user-attachments/assets/cfc0a2c3-1696-4b9c-8191-b714fc83cda7" />
 
 <img width="1280" height="842" alt="taslak düzenle" src="https://github.com/user-attachments/assets/70ad4c91-b7a2-444e-969c-1965f5b5ff6f" />
+<img width="1411" height="959" alt="image" src="https://github.com/user-attachments/assets/f9c98c93-fe54-4e6e-b422-06ae566659c0" />
 
 ---
 
@@ -300,6 +301,16 @@ Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
 
 <img width="1613" height="957" alt="trashbox" src="https://github.com/user-attachments/assets/0a69cd23-eb4f-46a1-936a-9b12964e76a2" />
 
+### 🗑️ Kategori Liste (Trash)
+Silinen maillerin kalıcı silinmeden önce tutulduğu ekran.
+Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
+
+
+### 🗑️ Silinenler (Trash)
+Silinen maillerin kalıcı silinmeden önce tutulduğu ekran.
+Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
+
+<img width="1613" height="957" alt="trashbox" src="https://github.com/user-attachments/assets/0a69cd23-eb4f-46a1-936a-9b12964e76a2" />
 
 ---
 

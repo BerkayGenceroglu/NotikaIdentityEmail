@@ -303,8 +303,12 @@ Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
 
 ###  Kullanıcı Listesi
 kullanıcılar listelenir
-<img width="1512" height="960" alt="image" src="https://github.com/user-attachments/assets/709acf2a-f3a8-431b-b123-7484a7112b4f" />
+<img width="1564" height="954" alt="image" src="https://github.com/user-attachments/assets/6ee0d193-b6b3-4532-9d69-ff561e9118b1" />
+<img width="1510" height="638" alt="image" src="https://github.com/user-attachments/assets/e34fc790-5714-4f7d-a737-83da039f60e1" />
 
+<img width="1638" height="881" alt="image" src="https://github.com/user-attachments/assets/15733eb9-f2af-4bd0-aaff-f59b4ed89093" />
+<img width="1457" height="705" alt="image" src="https://github.com/user-attachments/assets/590b48c7-3234-458f-8ff7-026bd69cd89c" />
+<img width="1258" height="751" alt="image" src="https://github.com/user-attachments/assets/a13e8e16-b0c5-4423-8711-ccc914236ecb" />
 
 
 
@@ -313,7 +317,10 @@ kullanıcılar listelenir
 Kullanıcı yorumlarının ToxicBERT tarafından analiz edildiği ve sonuçların görüntülendiği ekran.
 Her yoruma ait skor ve etiket (Temiz / Şüpheli / Zararlı) admin panelinden takip edilebilir.
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1436" height="955" alt="image" src="https://github.com/user-attachments/assets/bdc9c4d8-be2c-47ca-b709-1e7611750ff4" />
+<img width="1608" height="956" alt="image" src="https://github.com/user-attachments/assets/99539000-0fad-40e9-9fb5-6d1c7ee9196c" />
+<img width="1392" height="818" alt="image" src="https://github.com/user-attachments/assets/f50da8e0-bb17-4561-b09b-0e654a9be908" />
+
 
 ---
 

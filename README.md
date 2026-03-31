@@ -117,6 +117,9 @@ Uygulama, kullanıcılara tam teşekküllü bir e-posta deneyimi sunar.
 
 <img width="1583" height="961" alt="Gelen Kutusu Detay" src="https://github.com/user-attachments/assets/b0271771-dd16-4b0e-beaf-a90b4ab3e862" />
 
+> Kategoriye Göre Mesajlar Filtrelenir
+<img width="1099" height="946" alt="image" src="https://github.com/user-attachments/assets/4c67041b-9623-4220-8958-1ba1ee181c31" />
+
 ---
 
 ### 📤 Giden Kutusu (Sent)

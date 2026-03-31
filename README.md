@@ -303,7 +303,8 @@ Geri yükleme ve kalıcı silme işlemleri bu ekrandan yapılır.
 
 ###  Kullanıcı Listesi
 kullanıcılar listelenir
-<img width="1280" height="755" alt="userlist 2" src="https://github.com/user-attachments/assets/96603a51-2ebe-44d6-bd2b-2f624c3914f4" />
+<img width="1512" height="960" alt="image" src="https://github.com/user-attachments/assets/709acf2a-f3a8-431b-b123-7484a7112b4f" />
+
 
 
 

@@ -1,0 +1,212 @@
+﻿@model Message
+
+@{
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    var TodayDate = DateTime.Now;
+    var ElapsedTime = TodayDate - Model.SendDate;
+
+    string result;
+    if (ElapsedTime.TotalMinutes < 1)
+        result = "az önce";
+    else if (ElapsedTime.TotalMinutes < 60)
+        result = $"{(int)ElapsedTime.TotalMinutes} dakika önce";
+    else if (ElapsedTime.TotalHours < 24)
+        result = $"{(int)ElapsedTime.TotalHours} saat önce";
+    else if (ElapsedTime.TotalDays < 30)
+        result = $"{(int)ElapsedTime.TotalDays} gün önce";
+    else if (ElapsedTime.TotalDays < 365)
+        result = $"{(int)(ElapsedTime.TotalDays / 30)} ay önce";
+    else
+        result = $"{(int)(ElapsedTime.TotalDays / 365)} yıl önce";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+    }
+
+    .inbox-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 40px 0;
+        min-height: 100vh;
+    }
+
+    /* ── Message Card ── */
+    .view-mail-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+        overflow: hidden;
+    }
+
+    /* ── Header Section ── */
+    .view-mail-header {
+        padding: 25px 30px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fafafa;
+    }
+
+        .view-mail-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+    .time-badge {
+        font-size: 13px;
+        color: var(--text-muted);
+        background: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+    }
+
+        .time-badge b {
+            color: #be123c; /* Dark Red */
+        }
+
+    /* ── Info Bar ── */
+    .mail-info-bar {
+        padding: 20px 30px;
+        background: #fff;
+        border-bottom: 1px solid #f8fafc;
+    }
+
+    .info-item {
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: var(--text-muted);
+    }
+
+        .info-item b {
+            color: var(--text-main);
+            width: 80px;
+            display: inline-block;
+        }
+
+        .info-item a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+    /* ── Content Area ── */
+    .view-mail-content {
+        padding: 40px 30px;
+        font-size: 15px;
+        line-height: 1.7;
+        color: #334155;
+        min-height: 300px;
+        background: #fff;
+        word-wrap: break-word; /* Taşan içeriği alta atar */
+    }
+
+    /* ── Action Buttons ── */
+    .view-mail-footer {
+        padding: 20px 30px;
+        border-top: 1px solid var(--border);
+        background: #f8fafc;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--text-main);
+    }
+
+        .btn-action:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+    .btn-delete {
+        color: #ef4444;
+    }
+
+        .btn-delete:hover {
+            background: #fef2f2;
+            border-color: #fecdd3;
+        }
+
+</style>
+
+<div class="inbox-wrapper">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("MessageSidebarComponentPartial")
+
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="view-mail-card">
+
+                    <div class="view-mail-header">
+                        <h2>Mesaj Detayı</h2>
+                        <div class="time-badge">
+                            <i class="notika-icon notika-calendar"></i>
+                            @Model.SendDate.ToString("dd MMMM yyyy")
+                            (<b>@result</b>)
+                        </div>
+                    </div>
+
+                    <div class="mail-info-bar">
+                        <div class="info-item">
+                            <b>Konu:</b> <span style="font-size: 16px; font-weight: 600; color: var(--text-main);">@Model.Subject</span>
+                        </div>
+                        <div class="info-item">
+                            <b>Gönderen:</b> <a href="mailto:@Model.SenderEmail">@Model.SenderEmail</a>
+                        </div>
+                        <div class="info-item">
+                            <b>Tarih:</b> @Model.SendDate.ToString("dd.MM.yyyy")
+                        </div>
+                    </div>
+
+                    <div class="view-mail-content">
+                        @Html.Raw(Model.MessageDetail)
+                    </div>
+
+                    <div class="view-mail-footer">
+                        <button class="btn-action">
+                            <i class="notika-icon notika-next"></i> Yanıtla
+                        </button>
+                        <button class="btn-action">
+                            <i class="notika-icon notika-right-arrow"></i> Yönlendir
+                        </button>
+                        <button class="btn-action" onclick="window.print()">
+                            <i class="notika-icon notika-print"></i> Yazdır
+                        </button>
+                        <a href="/Message/MoveToTrash?messageId=@Model.MessageId" class="btn-action btn-delete" onclick="return confirm('Silmek istediğine emin misin?')">
+                            <i class="notika-icon notika-trash"></i> Sil
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,342 @@
+﻿@model List<Message>
+
+@{
+    ViewData["Title"] = "Gelen Kutusu";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #0891b2 0%, #10b981 100%);
+        --primary-soft: #f0fdfa;
+        --primary-dark: #0e7490;
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --danger: #ef4444;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+    }
+
+    .inbox-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 40px 0;
+        min-height: 100vh;
+    }
+
+    /* ── Toolbar ── */
+    .inbox-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        position: relative;
+        flex: 1;
+    }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: var(--surface);
+        }
+
+    .search-icon-fixed {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+    }
+
+    .refresh-btn {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 10px 20px;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ── Kapsayıcı ve Tablo (Düzenleme Burası) ── */
+    .inbox-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        overflow: hidden;
+        width: 100%;
+    }
+
+    /* Taşmayı engelleyen kritik ayar */
+    .table-responsive-custom {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .inbox-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Sütun genişliklerini sabitler */
+    }
+
+        .inbox-table th,
+        .inbox-table td {
+            padding: 14px 15px;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border);
+            /* Metin taşmasını engelleyen kurallar */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .inbox-table thead {
+            background: #f8fafc;
+        }
+
+        .inbox-table th {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+    /* Sütun Genişlik Oranları */
+    .col-status {
+        width: 50px;
+        text-align: center !important;
+    }
+
+    .col-sender {
+        width: 30%;
+    }
+
+    .col-category {
+        width: 110px;
+    }
+
+    .col-subject {
+        width: auto;
+    }
+    /* Esnek olan sütun */
+    .col-date {
+        width: 120px;
+        text-align: center !important;
+    }
+
+    .col-actions {
+        width: 100px;
+        text-align: center !important;
+    }
+
+    /* ── Mesaj Satırı ── */
+    .message-row {
+        transition: background 0.2s;
+    }
+
+        .message-row:hover {
+            background: #f9fafb;
+        }
+
+        .message-row.is-unread {
+            background: #ffffff;
+            border-left: 4px solid #10b981;
+        }
+
+    .subject-link {
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* ── Badge & Dots ── */
+    .cat-badge {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .bg-edu {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .bg-soc {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .bg-fin {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .bg-sey {
+        background: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    .bg-mok {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+
+    .dot-indicator {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dot-unread {
+        background: var(--primary-gradient);
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .dot-read {
+        background: #cbd5e1;
+    }
+
+    .action-link {
+        padding: 6px;
+        border-radius: 6px;
+        color: var(--text-muted);
+        text-decoration: none;
+    }
+
+    .btn-delete:hover {
+        color: var(--danger);
+        background: #fef2f2;
+    }
+</style>
+
+<div class="inbox-wrapper">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("MessageSidebarComponentPartial")
+
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="inbox-toolbar">
+                    <div class="search-box">
+                        <i class="notika-icon notika-search search-icon-fixed"></i>
+                        <input type="text" id="emailSearch" placeholder="Ara..." autocomplete="off">
+                    </div>
+                    <button class="refresh-btn" onclick="refreshPage()">
+                        <i class="notika-icon notika-refresh" id="refreshIcon"></i> Yenile
+                    </button>
+                </div>
+
+                @if (ViewBag.InboxCount > 0)
+                {
+                    <div class="unread-banner" style="background: var(--primary-soft); padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; color: var(--primary-dark); font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="notika-icon notika-mail"></i>
+                        <span>@ViewBag.InboxCount yeni mesaj</span>
+                    </div>
+                }
+
+                <div class="inbox-card">
+                    <div class="table-responsive-custom">
+                        <table class="inbox-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-status"></th>
+                                    <th class="col-sender">Gönderen</th>
+                                    <th class="col-category">Kategori</th>
+                                    <th class="col-subject">Konu</th>
+                                    <th class="col-date">Tarih</th>
+                                    <th class="col-actions">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="message-row @(item.IsRead ? "" : "is-unread")">
+                                        <td class="col-status">
+                                            <a href="/Message/ChangeToMessageIsRead@(item.IsRead ? "False" : "True")?messageId=@item.MessageId">
+                                                <span class="dot-indicator @(item.IsRead ? "dot-read" : "dot-unread")"></span>
+                                            </a>
+                                        </td>
+                                        <td class="col-sender" title="@item.SenderEmail">
+                                            <span style="font-weight: 600; color: var(--text-main);">@item.SenderEmail</span>
+                                        </td>
+                                        <td class="col-category">
+                                            @{
+                                                var badgeClass = item.Category.CategoryName switch
+                                                {
+                                                    "Bilgi" => "bg-edu",
+                                                    "Eğitim" => "bg-mok",
+                                                    "Sosyal" => "bg-soc",
+                                                    "Kampanyalar" => "bg-fin",
+                                                    "Seyahat" => "bg-sey",
+                                                    _ => "bg-sey"
+                                                };
+                                            }
+                                            <span class="cat-badge @badgeClass">@item.Category.CategoryName</span>
+                                        </td>
+                                        <td class="col-subject">
+                                            <a href="/Message/MessageDetail?messageId=@item.MessageId" class="subject-link"
+                                               style="color: var(--text-main); font-weight: @(item.IsRead ? "400" : "600")" title="@item.Subject">
+                                                @item.Subject
+                                            </a>
+                                        </td>
+                                        <td class="col-date">
+                                            @item.SendDate.ToString("dd.MM.yyyy")
+                                        </td>
+                                        <td class="col-actions">
+                                            <a href="/Message/MessageDetail?messageId=@item.MessageId" class="action-link" title="Gör">
+                                                <i class="notika-icon notika-eye"></i>
+                                            </a>
+                                            <a href="/Message/MoveToTrash?messageId=@item.MessageId" class="action-link btn-delete"
+                                               onclick="return confirm('Silinsin mi?')" title="Sil">
+                                                <i class="notika-icon notika-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function refreshPage() {
+        const icon = document.getElementById('refreshIcon');
+        icon.style.transition = "transform 0.5s";
+        icon.style.transform = "rotate(360deg)";
+        setTimeout(() => { location.reload(); }, 400);
+    }
+
+    $(document).ready(function () {
+        $("#emailSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".message-row").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

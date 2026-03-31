@@ -1,0 +1,167 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 – Sayfa Bulunamadı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #e8f5f3;
+            --card: #ffffff;
+            --green: #3aafa9;
+            --green-d: #2b9a94;
+            --green-l: #d0eeec;
+            --text: #1a2e2d;
+            --muted: #6b9090;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 52px 48px 44px;
+            width: min(440px, 90vw);
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(58,175,169,.12);
+            animation: up .5s ease both;
+        }
+
+        @@keyframes up {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .icon {
+            width: 72px;
+            height: 72px;
+            background: var(--green-l);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+        }
+
+            .icon svg {
+                width: 34px;
+                height: 34px;
+                color: var(--green);
+            }
+
+        .code {
+            font-size: 72px;
+            font-weight: 600;
+            color: var(--green);
+            line-height: 1;
+            letter-spacing: -.04em;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 36px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .15s, transform .1s;
+        }
+
+            .btn:active {
+                transform: scale(.97);
+            }
+
+        .btn-primary {
+            background: var(--green);
+            color: #fff;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: var(--green-d);
+            }
+
+        .btn-ghost {
+            background: var(--green-l);
+            color: var(--green-d);
+            border: none;
+        }
+
+            .btn-ghost:hover {
+                background: #b8e4e2;
+            }
+    </style>
+</head>
+<body>
+    <div class="card">
+
+        <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 7l10 7 10-7" />
+            </svg>
+        </div>
+
+        <div class="code">404</div>
+        <h1>Aradığın sayfa bulunamadı</h1>
+        <p>Üzgünüz, böyle bir sayfa bulunamadı<br />Bu sayfa değişmiş,taşınmış,silinmiş ya da hiç var olmamış olabilir.</p>
+
+        <div class="actions">
+            <a href="/Profile/EditProfile" class="btn btn-primary">Ana Sayfa</a>
+            <a href="/Login/UserLogin" class="btn btn-ghost">Giriş Yap</a>
+        </div>
+
+    </div>
+</body>
+</html>

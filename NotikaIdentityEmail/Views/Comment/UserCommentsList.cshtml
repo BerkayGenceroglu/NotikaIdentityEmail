@@ -1,0 +1,313 @@
+﻿@model List<Comment>
+@{
+    ViewData["Title"] = "Yorum Yönetimi";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    int count = 0;
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    :root {
+        --primary: #6366f1;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --secondary: #64748b;
+    }
+
+    .admin-wrapper {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .table-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+    }
+
+    .comment-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .comment-table thead th {
+            background: #f8fafc;
+            padding: 0.8rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comment-table td {
+            padding: 0.8rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+    /* --- GÜNCELLENEN KULLANICI ALANI (AVATAR VE İSİM) --- */
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Boşluk artırıldı */
+    }
+
+    .user-avatar-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .user-avatar {
+        width: 38px; /* Boyut orantılı artırıldı */
+        height: 38px;
+        border-radius: 10px; /* Modern yuvarlak köşeler */
+        object-fit: cover;
+        border: 2px solid #ffffff; /* Profesyonel beyaz çerçeve */
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Hafif gölge */
+    }
+
+    .user-details {
+        display: flex;
+        flex-direction: column; /* İsim soyisim alt alta */
+        line-height: 1.2;
+    }
+
+    .user-name {
+        font-weight: 700; /* Daha kalın */
+        font-size: 0.85rem;
+        color: #0f172a;
+    }
+
+    .user-surname {
+        font-weight: 500;
+        font-size: 0.8rem;
+        color: #64748b; /* Daha silik soyisim */
+    }
+    /* ------------------------------------------------ */
+
+    /* Yorum Metni (Küçük Font) */
+    .comment-cell {
+        font-size: 0.82rem;
+        color: #475569;
+        line-height: 1.4;
+    }
+
+    /* Durum Rozetleri */
+    .badge-status {
+        padding: 0.25rem 0.6rem;
+        border-radius: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+    }
+
+    .status-active {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-toxic {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+
+    .status-passive {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    /* Butonlar (Kibar ve Yazılı) */
+    .action-group {
+        display: flex;
+        gap: 5px;
+        justify-content: flex-end;
+    }
+
+    .btn-action {
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        color: white !important;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+    .btn-approve {
+        background: var(--success);
+    }
+
+    .btn-toxic {
+        background: var(--warning);
+    }
+
+    .btn-passive {
+        background: var(--secondary);
+    }
+
+    .btn-delete {
+        background: var(--danger);
+    }
+</style>
+
+<div class="admin-wrapper">
+    <h3 style="margin-bottom: 1.2rem; font-weight: 700; color: #1e293b;">Yorum Yönetimi</h3>
+
+    <div class="table-card">
+        <table class="comment-table">
+            <thead>
+                <tr>
+                    <th style="width: 40px">#</th>
+                    <th style="width: 200px">Kullanıcı</th> 
+                    <th>Yorum</th>
+                    <th style="width: 100px">Durum</th>
+                    <th style="width: 350px; text-align:right">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr id="row-@item.CommentId">
+                        <td style="color: #cbd5e1; font-weight: bold; font-size: 0.75rem;">@count.ToString("D2")</td>
+                        <td>
+                            <div class="user-profile">
+                                <div class="user-avatar-wrapper">
+                                    <img src="@item.AppUser.ImageUrl" class="user-avatar" />
+                                </div>
+                                <div class="user-details">
+                                    <span class="user-name">@item.AppUser.Name</span>
+                                    <span class="user-surname">@item.AppUser.Surname</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="comment-cell">@item.CommentDetail</td>
+                        <td id="status-cell-@item.CommentId">
+                            @if (item.CommentStatus == "Yorum onaylandı")
+                            {
+                                <span class="badge-status status-active">Onaylı</span>
+                            }
+                            else if (item.CommentStatus == "Toxic Yorum")
+                            {
+                                <span class="badge-status status-toxic">Toksik</span>
+                            }
+                            else if (item.CommentStatus == "Pasif Yorum")
+                            {
+                                <span class="badge-status status-passive">Pasif</span>
+                            }
+                            else
+                            {
+                                <span class="badge-status status-pending">Beklemede</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="action-group">
+                                <button onclick="handleAction(@item.CommentId, 'Active')" class="btn-action btn-approve">
+                                    <i class="fas fa-check"></i> Onayla
+                                </button>
+                                <button onclick="handleAction(@item.CommentId, 'Toxic')" class="btn-action btn-toxic">
+                                    <i class="fas fa-biohazard"></i> Toksik
+                                </button>
+                                <button onclick="handleAction(@item.CommentId, 'Passive')" class="btn-action btn-passive">
+                                    <i class="fas fa-eye-slash"></i> Pasif
+                                </button>
+                                <button onclick="handleDelete(@item.CommentId)" class="btn-action btn-delete">
+                                    <i class="fas fa-trash-alt"></i> Sil
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // İstediğin detaylı Toast konfigürasyonu
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+
+    const statusMap = {
+        'Active':  '<span class="badge-status status-active">Onaylı</span>',
+        'Toxic':   '<span class="badge-status status-toxic">Toksik</span>',
+        'Passive': '<span class="badge-status status-passive">Pasif</span>'
+    };
+
+    const toastConfig = {
+        'Active':  { icon: 'success', title: 'Yorum Onaylandı',     background: '#ffffff', color: '#545454' },
+        'Toxic':   { icon: 'warning', title: 'Toksik Olarak İşaretlendi', background: '#DB1A1A', color: '#ffffff' },
+        'Passive': { icon: 'info',    title: 'Yorum Pasife Alındı', background: '#ffffff', color: '#545454' }
+    };
+
+    function handleAction(id, type) {
+        $.post(`/Comment/CommentStatusChangeTo${type}/${id}`)
+            .done(function () {
+                // UI Güncelleme
+                $(`#status-cell-${id}`).hide().html(statusMap[type]).fadeIn(400);
+                // İstediğin renkli Toast'u fırlat
+                Toast.fire(toastConfig[type]);
+            })
+            .fail(function () {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'Bir hata oluştu!',
+                    background: '#ffffff',
+                    color: '#545454'
+                });
+            });
+    }
+
+    function handleDelete(id) {
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu yorum kalıcı olarak silinecek.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'Evet, Sil!',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post(`/Comment/DeleteComment/${id}`)
+                    .done(function () {
+                        // Satırı kaydırarak sil
+                        $(`#row-${id}`).slideUp(400, function () { $(this).remove(); });
+                        Toast.fire({ icon: 'success', title: 'Yorum Silindi' });
+                    })
+                    .fail(function () {
+                        Toast.fire({ icon: 'error', title: 'Silme işlemi başarısız!' });
+                    });
+            }
+        });
+    }
+</script>

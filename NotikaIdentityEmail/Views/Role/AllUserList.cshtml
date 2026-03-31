@@ -1,0 +1,244 @@
+﻿@model List<UserViewModel>
+@{
+    ViewData["Title"] = "AllUserList";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    int count = 0;
+}
+
+<!-- Toast Container -->
+<div id="toast-container" style="position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;"></div>
+
+<style>
+    .normal-table-area {
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .toast-notification {
+        padding: 14px 20px;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        opacity: 0;
+        transform: translateX(60px);
+        transition: all 0.4s ease;
+        min-width: 260px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .toast-notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+    .toast-fire {
+        background: linear-gradient(135deg, #ff6b35, #f7c59f);
+    }
+
+    .toast-ice {
+        background: linear-gradient(135deg, #546e7a, #90a4ae);
+    }
+
+    .toast-icon {
+        font-size: 18px;
+    }
+
+    /* Aktif satır - yeşilimsi arka plan */
+    tr.row-active {
+        background-color: #e8f5e9 !important;
+        transition: background-color 0.5s ease;
+    }
+
+    /* Pasif satır - grimssi arka plan */
+    tr.row-inactive {
+        background-color: #f5f5f5 !important;
+        opacity: 0.75;
+        transition: background-color 0.5s ease, opacity 0.5s ease;
+    }
+
+    .status-badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-active {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+    }
+
+    .badge-inactive {
+        background: #f5f5f5;
+        color: #757575;
+        border: 1px solid #e0e0e0;
+    }
+
+    .btn-action {
+        border: none;
+        border-radius: 6px;
+        padding: 5px 12px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s;
+    }
+
+        .btn-action:hover {
+            opacity: 0.85;
+            transform: scale(1.04);
+        }
+
+        .btn-action:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+</style>
+
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <div class="basic-tb-hd">
+                        <h2>Sisteme Kayıtlı Kullanıcı Listesi</h2>
+                        <p>Sisteme Kayıtlı Kullanıcıları Aşağıdan Görebilirsiniz</p>
+                    </div>
+                    <div class="bsc-tbl-st">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>Email</th>
+                                    <th>Durum</th>
+                                    <th>Aktif Yap</th>
+                                    <th>Pasif Yap</th>
+                                    <th>Rol Ata</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    var rowClass = item.IsActive ? "row-active" : "row-inactive";
+                                    <tr id="row-@item.UserId" class="@rowClass">
+                                        <td>@count</td>
+                                        <td>@item.Name @item.Surname</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.Email</td>
+                                        <td id="status-@item.UserId">
+                                            @if (item.IsActive)
+                                            {
+                                                <span class="status-badge badge-active">✔ Aktif</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="status-badge badge-inactive">✖ Pasif</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <button class="btn-action"
+                                                    style="background-color:lightseagreen;color:white"
+                                                    onclick="changeStatus('@item.UserId', 'activate', this)">
+                                                Aktif Yap
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn-action"
+                                                    style="background-color:lightslategrey;color:white"
+                                                    onclick="changeStatus('@item.UserId', 'deactivate', this)">
+                                                Pasif Yap
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="/Role/AssignRolePage/@item.RoleId"
+                                               style="background-color:mediumslateblue;color:white"
+                                               class="btn btn-action">
+                                                Rol Ata
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function changeStatus(userId, action, btn) {
+        const url = action === 'activate'
+            ? `/Role/ActivateUser/${userId}`
+            : `/Role/DeactivateUser/${userId}`;
+
+        // Butonu geçici olarak devre dışı bırak
+        btn.disabled = true;
+
+        try {
+            const response = await fetch(url, { method: 'GET' });
+
+            if (!response.ok) throw new Error('Sunucu hatası');
+
+            const isActive = action === 'activate';
+            const row = document.getElementById(`row-${userId}`);
+            const statusCell = document.getElementById(`status-${userId}`);
+
+            // Satır rengini güncelle
+            row.classList.remove('row-active', 'row-inactive');
+            row.classList.add(isActive ? 'row-active' : 'row-inactive');
+
+            // Durum badge'ini güncelle
+            statusCell.innerHTML = isActive
+                ? `<span class="status-badge badge-active">✔ Aktif</span>`
+                : `<span class="status-badge badge-inactive">✖ Pasif</span>`;
+
+            // Toast göster
+            showToast(
+                isActive ? ' Kullanıcı aktif edildi!' : 'Kullanıcı pasif edildi.',
+                isActive ? 'fire' : 'ice'
+            );
+
+        } catch (err) {
+            showToast('❌ Bir hata oluştu, lütfen tekrar deneyin.', 'error');
+            console.error(err);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    function showToast(message, type) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+
+        toast.className = `toast-notification toast-${type === 'fire' ? 'fire' : 'ice'}`;
+        toast.innerHTML = `
+            <span class="toast-icon"></span>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+
+        // Animasyonu tetikle
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => toast.classList.add('show'));
+        });
+
+        // 3 saniye sonra kaldır
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 400);
+        }, 3000);
+    }
+</script>

@@ -1,0 +1,260 @@
+﻿@model List<RoleListViewModel>
+
+@{
+    ViewData["Title"] = "Rol Listesi";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    int count = 0;
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+        --danger: #ef4444;
+        --success: #10b981;
+        --info: #0ea5e9;
+        --teal: #14b8a6;
+    }
+
+    .page-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 40px 0;
+        min-height: 100vh;
+    }
+
+    /* ── Card & Table ── */
+    .table-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+        overflow: hidden;
+        padding: 30px;
+    }
+
+    .header-section {
+        margin-bottom: 25px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+    }
+
+        .header-section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .header-section p {
+            color: var(--text-muted);
+            margin: 5px 0 0 0;
+            font-size: 14px;
+        }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+        .custom-table thead {
+            background: #f8fafc;
+        }
+
+        .custom-table th {
+            padding: 15px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .custom-table td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text-main);
+        }
+
+        .custom-table tr:hover {
+            background-color: #fcfcfd;
+        }
+
+    /* ── Buttons ── */
+    .btn-action {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-delete {
+        background: #fef2f2;
+        color: var(--danger);
+    }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+    .btn-update {
+        background: #ecfdf5;
+        color: var(--success);
+    }
+
+        .btn-update:hover {
+            background: var(--success);
+            color: white;
+        }
+
+    .btn-users {
+        background: #f0fdfa;
+        color: var(--teal);
+    }
+
+        .btn-users:hover {
+            background: var(--teal);
+            color: white;
+        }
+
+    .btn-add {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 12px 24px;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+    }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            color: white;
+        }
+
+</style>
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-card">
+
+                    <div class="header-section">
+                        <h2>Sisteme Kayıtlı Rol Listesi</h2>
+                        <p>Sistem yetkilendirmelerini buradan yönetebilir, yeni roller tanımlayabilirsiniz.</p>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>Rol Adı</th>
+                                    <th style="width: 120px;">Sil</th>
+                                    <th style="width: 120px;">Güncelle</th>
+                                    <th style="width: 220px;">Kullanıcı Yönetimi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td style="font-weight: 700; color: var(--text-muted);">@count</td>
+                                        <td style="font-weight: 600;">@item.RoleName</td>
+                                        <td>
+                                            <button class="btn-action btn-delete" onclick="silOnay('@item.Id')">
+                                                <i class="notika-icon notika-trash"></i> Sil
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="/Role/UpdateRole/@item.Id" class="btn-action btn-update">
+                                                <i class="notika-icon notika-edit"></i> Güncelle
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/Role/ShowUsersToRole/@item.Id" class="btn-action btn-users">
+                                                <i class="notika-icon notika-social"></i> Kullanıcıları Gör
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="footer-actions">
+                        <a href="/Role/CreateRole/" class="btn-action btn-add">
+                            <i class="notika-icon notika-plus-symbol"></i> Yeni Rol Ekle
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function silOnay(id) {
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu rol silinecek, bu işlem geri alınamaz!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, Sil',
+            cancelButtonText: 'Vazgeç',
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#64748b',
+            background: '#ffffff',
+            customClass: {
+                confirmButton: 'btn-action',
+                cancelButton: 'btn-action'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/Role/RemoveRole/' + id;
+            }
+        });
+    }
+</script>
+
+@if (TempData["RemoveProcess"] != null)
+{
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+
+        Toast.fire({
+            icon: 'success',
+            title: '@Html.Raw(TempData["RemoveProcess"].ToString())'
+        });
+    </script>
+}

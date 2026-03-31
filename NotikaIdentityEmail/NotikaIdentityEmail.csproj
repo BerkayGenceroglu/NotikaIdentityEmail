@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\userimages\01.jpg" />
+    <None Include="wwwroot\userimages\02.jpg" />
+    <None Include="wwwroot\userimages\03.jpg" />
+    <None Include="wwwroot\userimages\04.jpg" />
+    <None Include="wwwroot\userimages\05.jpg" />
+    <None Include="wwwroot\userimages\06.jpg" />
+    <None Include="wwwroot\userimages\07.jpg" />
+    <None Include="wwwroot\userimages\08.jpg" />
+    <None Include="wwwroot\userimages\09.jpg" />
+    <None Include="wwwroot\userimages\10.jpg" />
+    <None Include="wwwroot\userimages\11.jpg" />
+    <None Include="wwwroot\userimages\12.png" />
+    <None Include="wwwroot\userimages\13.jpg" />
+    <None Include="wwwroot\userimages\14.jpg" />
+    <None Include="wwwroot\userimages\15.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.12" />
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
+  </ItemGroup>
+
+</Project>

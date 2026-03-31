@@ -1,0 +1,270 @@
+﻿@model List<Message>
+
+@{
+    ViewData["Title"] = "Giden Kutusu";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #0891b2 0%, #10b981 100%);
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --danger: #ef4444;
+        --radius-lg: 16px;
+        --radius-md: 8px;
+    }
+
+    .inbox-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 30px 0;
+    }
+
+    /* ── Toolbar & Info ── */
+    .inbox-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+    }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+        }
+
+    .search-icon-fixed {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+    }
+
+    .info-banner {
+        background: #f1f5f9;
+        padding: 10px 15px;
+        border-radius: var(--radius-md);
+        font-size: 13px;
+        color: var(--text-main);
+    }
+
+    /* ── Taşmayı Engelleyen Tablo Yapısı ── */
+    .inbox-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        overflow: hidden; /* Kart dışına taşmayı engeller */
+    }
+
+    .inbox-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Sütun genişliklerini sabit tutar, taşmayı engeller */
+    }
+
+        .inbox-table thead {
+            background: #f1f5f9;
+        }
+
+        .inbox-table th {
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+    .message-row {
+        border-bottom: 1px solid var(--border);
+        transition: background 0.2s;
+    }
+
+        .message-row:hover {
+            background: #f8fafc;
+        }
+
+        .message-row td {
+            padding: 12px 20px;
+            vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Uzun metinlerin sonuna ... koyar */
+        }
+
+    /* ── Badge & Action Buttons ── */
+    .cat-badge {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .bg-edu {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .bg-soc {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .bg-fin {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .bg-sey {
+        background: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    .bg-mok {
+        background: #e0f2fe;
+        color: #0369a1;
+    }
+    /* Seyahat için */
+
+    .actions-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn-action {
+        text-decoration: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.2s;
+    }
+
+    .btn-view {
+        background: #f1f5f9;
+        color: var(--text-main);
+        border: 1px solid var(--border);
+    }
+
+        .btn-view:hover {
+            background: #e2e8f0;
+        }
+
+    .btn-delete {
+        color: var(--danger);
+        padding: 6px;
+    }
+
+        .btn-delete:hover {
+            background: #fef2f2;
+            border-radius: 50%;
+        }
+
+</style>
+
+<div class="inbox-wrapper">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("MessageSidebarComponentPartial")
+
+            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                <div class="inbox-toolbar">
+                    <div class="search-box">
+                        <i class="notika-icon notika-search search-icon-fixed"></i>
+                        <input type="text" id="sendboxSearch" placeholder="Mesajlarda ara...">
+                    </div>
+                    <div class="info-banner">
+                        Giden: <strong>@ViewBag.SendBoxCount</strong>
+                    </div>
+                </div>
+
+                <div class="inbox-card">
+                    <table class="inbox-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">Alıcı</th>
+                                <th style="width: 20%;">Kategori</th>
+                                <th style="width: 20%;">Konu</th>
+                                <th style="width: 15%;">Tarih</th>
+                                <th style="width: 15%; text-align: center;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="message-row">
+                                    <td title="@item.ReceiverEmail"><strong>@item.ReceiverEmail</strong></td>
+                                    <td>
+                                        @{
+                                            var badgeClass = item.Category?.CategoryName switch
+                                            {
+                                                "Bilgi" => "bg-edu",
+                                                "Eğitim" => "bg-mok",
+                                                "Sosyal" => "bg-soc",
+                                                "Kampanyalar" => "bg-fin",
+                                                "Seyahat" => "bg-sey",
+                                                _ => "bg-sey"
+                                            };
+                                        }
+                                        <span class="cat-badge @badgeClass">@(item.Category?.CategoryName ?? "Genel")</span>
+                                    </td>
+                                    <td title="@item.Subject">@item.Subject</td>
+                                    <td style="color: var(--text-muted); font-size: 13px;">
+                                        @item.SendDate.ToString("dd MMM yyyy")
+                                    </td>
+                                    <td>
+                                        <div class="actions-container">
+                                            <a href="/Message/MessageDetail?messageId=@item.MessageId" class="btn-action btn-view">
+                                                <i class="notika-icon notika-eye"></i> Detay
+                                            </a>
+                                            <a href="/Message/MoveToTrash?messageId=@item.MessageId" class="btn-delete" onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                                                <i class="notika-icon notika-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#sendboxSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".message-row").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

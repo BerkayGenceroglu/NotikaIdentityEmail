@@ -1,0 +1,364 @@
+﻿@model RegisterUserViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Identity Kayıt Formu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --sky-400: #38bdf8;
+            --sky-500: #0ea5e9;
+            --sky-600: #0284c7;
+            --sky-700: #0369a1;
+            --text-dark: #0c2340;
+            --text-mid: #3b6ca8;
+            --text-soft: #7aadcf;
+            --card-bg: rgba(255,255,255,0.72);
+            --radius: 20px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse 80% 60% at 10% 20%, #c7e9fb 0%, transparent 60%), radial-gradient(ellipse 70% 50% at 90% 80%, #bfdbfe 0%, transparent 55%), radial-gradient(ellipse 60% 70% at 55% 10%, #e0f2fe 0%, transparent 50%), linear-gradient(160deg, #dbeffe 0%, #eff8ff 50%, #ddf4ff 100%);
+            padding: 24px;
+            overflow: hidden;
+        }
+
+            body::before, body::after {
+                content: '';
+                position: fixed;
+                border-radius: 50%;
+                filter: blur(60px);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            body::before {
+                width: 400px;
+                height: 400px;
+                background: rgba(56,189,248,0.22);
+                top: -100px;
+                left: -100px;
+            }
+
+            body::after {
+                width: 350px;
+                height: 350px;
+                background: rgba(129,140,248,0.15);
+                bottom: -80px;
+                right: -80px;
+            }
+
+        .dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(14,165,233,0.12) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(255,255,255,0.85);
+            border-radius: var(--radius);
+            padding: 48px 44px 40px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 4px 6px rgba(14,165,233,0.06), 0 24px 60px rgba(2,132,199,0.12), inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--sky-400), var(--sky-600));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(14,165,233,0.4);
+        }
+
+            .brand-icon svg {
+                width: 24px;
+                height: 24px;
+                fill: white;
+            }
+
+        .card-header h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .card-header p {
+            font-size: 14px;
+            color: var(--text-soft);
+        }
+
+        .form-row-total {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .form-row label {
+                font-size: 11.5px;
+                font-weight: 600;
+                color: var(--text-mid);
+                text-transform: uppercase;
+                letter-spacing: 0.9px;
+                margin-bottom: 7px;
+            }
+
+        .input-text {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(240,249,255,0.7);
+            border: 1.5px solid rgba(14,165,233,0.18);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.22s ease;
+        }
+
+            .input-text::placeholder {
+                color: rgba(123,173,207,0.7);
+            }
+
+            .input-text:focus {
+                border-color: var(--sky-400);
+                background: white;
+                box-shadow: 0 0 0 3px rgba(56,189,248,0.15);
+            }
+
+            .input-text:-webkit-autofill {
+                -webkit-box-shadow: 0 0 0 30px #f0f9ff inset;
+                -webkit-text-fill-color: var(--text-dark);
+            }
+
+        .divider {
+            height: 1px;
+            background: rgba(14,165,233,0.15);
+            margin: 4px 0 18px;
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.22);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: none;
+        }
+
+            .alert-danger:has(.text-white:not(:empty)) {
+                display: block;
+            }
+
+        .text-white {
+            padding-inline-start: 5px;
+            color: #C00707;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .form-row-last {
+            margin-top: 8px;
+        }
+
+        .register {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--sky-400) 0%, var(--sky-600) 100%);
+            border: none;
+            border-radius: 13px;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Sora', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.2px;
+            box-shadow: 0 8px 24px rgba(14,165,233,0.38);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .register::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+                border-radius: inherit;
+            }
+
+            .register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 14px 36px rgba(14,165,233,0.48);
+            }
+
+            .register:active {
+                transform: translateY(0);
+                box-shadow: 0 4px 12px rgba(14,165,233,0.28);
+            }
+
+        .validation-msg {
+            font-size: 12px;
+            color: #C00707;
+            margin-top: 6px;
+            padding: 6px 10px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            display: none;
+        }
+
+            .validation-msg:not(:empty) {
+                display: block;
+            }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13.5px;
+            color: var(--text-soft);
+        }
+
+            .login-link a {
+                color: var(--sky-600);
+                text-decoration: none;
+                font-weight: 600;
+                margin-left: 4px;
+                transition: color 0.2s ease;
+            }
+
+                .login-link a:hover {
+                    color: var(--sky-700);
+                }
+
+        @@media (max-width: 480px) {
+            .card {
+                padding: 32px 24px;
+            }
+
+            .form-row-total {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dots"></div>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="brand-mark">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                    </svg>
+                </div>
+            </div>
+            <h2>Yeni Kullanıcı Kaydı</h2>
+            <p>Hesap oluşturmak için bilgilerinizi girin</p>
+        </div>
+
+        <form class="form-detail" method="post">
+            <div class="form-row-total">
+                <div class="form-row">
+                    <label>Ad</label>
+                    <input type="text" class="input-text" asp-for="Name" placeholder="Adınız">
+                </div>
+                <div class="form-row">
+                    <label>Soyad</label>
+                    <input type="text" class="input-text" asp-for="Surname" placeholder="Soyadınız" required>
+                </div>
+            </div>
+
+            <div class="form-row-total">
+                <div class="form-row">
+                    <label>E-posta</label>
+                    <input type="text" class="input-text" asp-for="Email" placeholder="ornek@mail.com">
+                </div>
+                <div class="form-row">
+                    <label>Kullanıcı Adı</label>
+                    <input type="text" class="input-text" asp-for="Username" placeholder="kullanici_adi" required>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="form-row-total">
+                <div class="form-row">
+                    <label>Şifre</label>
+                    <input type="password" class="input-text" asp-for="Password" placeholder="••••••••">
+                </div>
+                <div class="form-row">
+                    <label>Şifre Tekrar</label>
+                    <input type="password" class="input-text" asp-for="ConfirmPassword" placeholder="••••••••">
+                </div>
+            </div>
+            <span asp-validation-for="ConfirmPassword" class="validation-msg"></span>
+
+            <div class="alert alert-danger">
+                <div asp-validation-summary="ModelOnly" class="text-white"></div>
+            </div>
+
+            <div class="form-row-last">
+                <button type="submit" class="register">Kayıt Ol</button>
+            </div>
+
+            <div class="login-link">
+                Hesabın var mı?
+                <a href="/Login/userlogin">Giriş Yap</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

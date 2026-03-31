@@ -1,0 +1,51 @@
+﻿@model List<Category>
+
+@{
+    ViewData["Title"] = "CategoryList";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="normal-table-list mg-t-30">
+                    <div class="basic-tb-hd">
+                        <h2>Sisteme Kategori Rol Listesi</h2>
+                        <p>Sisteme Kayıtlı Kategori Aşağıdan Görebilirsiniz</p>
+                    </div>
+                    <div class="bsc-tbl-st">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Kategori Adı</th>
+                                    <th>Durum</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.CategoryName</td>
+                                        <td>@item.CategoryStatus</td>
+                                        <td><a href="/Category/DeleteCategory/@item.CategoryId" class="btn btn-danger">Sil</a></td>
+                                        <td><a href="/Category/UpdateCategory/@item.CategoryId" class="btn btn-success">Güncelle</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <br />
+
+                        <a href="/Category/CreateCategory/" class="btn btn-info">Kategori Ekle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

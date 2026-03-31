@@ -1,0 +1,249 @@
+﻿@model Message
+
+@{
+    ViewData["Title"] = "Taslağı Düzenle";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        --primary-soft: #fffbeb;
+        --primary-dark: #b45309;
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+    }
+
+    .inbox-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 40px 0;
+        min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .view-mail-hd h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .view-mail-hd h2::before {
+        content: '';
+        width: 4px;
+        height: 24px;
+        background: var(--primary-gradient);
+        border-radius: 10px;
+    }
+
+    /* ── Form Card ── */
+    .compose-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+        padding: 30px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--text-main);
+        font-size: 14px;
+        margin-top: 8px;
+    }
+
+    .custom-input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        font-size: 14px;
+        background: #f8fafc;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+    }
+
+    .custom-input:focus {
+        outline: none;
+        border-color: #f59e0b;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+    }
+
+    /* ── Summernote Override ── */
+    .note-editor.note-frame {
+        border: 1px solid var(--border) !important;
+        border-radius: var(--radius-md) !important;
+        overflow: hidden;
+        margin-bottom: 25px;
+    }
+
+    .note-toolbar {
+        background: #f8fafc !important;
+        border-bottom: 1px solid var(--border) !important;
+    }
+
+    /* ── Action Buttons ── */
+    .compose-actions {
+        display: flex;
+        gap: 12px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+        margin-top: 10px;
+    }
+
+    .btn-send {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+    }
+
+    .btn-send:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+        color: white;
+    }
+
+    .btn-trash {
+        background: #fef2f2;
+        color: #ef4444;
+        border: 1px solid #fee2e2;
+        padding: 12px 20px;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        margin-left: auto; /* Silme butonunu sağa ittik */
+        transition: all 0.2s;
+    }
+
+    .btn-trash:hover {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+</style>
+
+<div class="inbox-wrapper">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("MessageSidebarComponentPartial")
+
+            <div class="col-lg-9 col-md-9 col-sm-12">
+                <div class="compose-card">
+                    <div class="view-mail-hd">
+                        <h2>Taslağı Düzenle ve Gönder</h2>
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="MessageId" />
+                        
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-3">
+                                <label class="form-label">Alıcı:</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="email" asp-for="ReceiverEmail" class="custom-input" placeholder="ornek@mail.com" required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-3">
+                                <label class="form-label">Kategori:</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <select asp-for="CategoryId" class="custom-input" asp-items="ViewBag.CategoryList" required>
+                                    <option value="">-- Bir Kategori Seçin --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-3">
+                                <label class="form-label">Konu:</label>
+                            </div>
+                            <div class="col-lg-10 col-md-10 col-sm-9">
+                                <input type="text" asp-for="Subject" class="custom-input" placeholder="Mesajınızın konusu..." required />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group mg-t-10">
+                                    <textarea asp-for="MessageDetail" class="summernote"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="compose-actions">
+                            <button type="submit" name="buttonAction" value="send" class="btn-send">
+                                <i class="notika-icon notika-next"></i> Taslağı Gönder
+                            </button>
+
+                            <button type="submit" name="buttonAction" value="draft" class="btn-draft" style="background:#fff; border:1px solid var(--border); padding:12px 20px; border-radius:var(--radius-md); font-weight:600;">
+                                <i class="notika-icon notika-edit"></i> Taslağı Güncelle
+                            </button>
+
+                            <a href="/Message/MoveToTrash?messageId=@Model.MessageId" class="btn-trash" onclick="return confirm('Bu taslağı silmek istediğinizden emin misiniz?')">
+                                <i class="notika-icon notika-trash"></i> Taslağı Sil
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (TempData["ProcessSuccess"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Başarılı!',
+            text: 'Mesajınız başarıyla gönderilmiştir.',
+            icon: 'success',
+            confirmButtonColor: '#f59e0b'
+        });
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $('.summernote').summernote({
+            height: 300,
+            placeholder: 'Taslağınızı buraya yazmaya devam edin...',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>

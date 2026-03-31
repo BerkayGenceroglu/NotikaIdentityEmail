@@ -1,0 +1,10 @@
+﻿@model List<CategoryWithCountViewModel>
+
+<div class="inbox-status">
+    <ul class="inbox-st-nav">
+        @foreach (var item in Model)
+        {
+            <li><a href="/Message/GetMessageListByCategory?CategoryId=@item.CategoryId"><i class="@item.CategoryIcon"></i> @item.CategoryName (@item.MessageCount)</a></li>
+        }
+    </ul>
+</div>

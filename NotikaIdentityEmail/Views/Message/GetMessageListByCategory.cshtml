@@ -1,0 +1,305 @@
+﻿@model List<Message>
+
+@{
+    ViewData["Title"] = "Kategoriye Göre Mesajlar";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    :root {
+        --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); /* Kategori sayfası için İndigo Tonu */
+        --primary-soft: #eef2ff;
+        --primary-dark: #3730a3;
+        --bg: #f1f5f9;
+        --surface: #ffffff;
+        --border: #e2e8f0;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+    }
+
+    .inbox-wrapper {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        padding: 40px 0;
+        min-height: 100vh;
+    }
+
+    /* ── Toolbar ── */
+    .inbox-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        position: relative;
+        flex: 1;
+    }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            background: var(--surface);
+        }
+
+    .search-icon-fixed {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+        font-size: 18px;
+    }
+
+    /* ── Info Banner ── */
+    .info-banner {
+        background: var(--primary-soft);
+        border: 1px solid #c7d2fe;
+        padding: 12px 20px;
+        border-radius: var(--radius-md);
+        margin-bottom: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--primary-dark);
+        font-weight: 600;
+    }
+
+    /* ── Table & Card ── */
+    .inbox-card {
+        background: var(--surface);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+        overflow: hidden;
+    }
+
+    .table-responsive-custom {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .inbox-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Taşmayı önleyen ve sütunları sabitleyen kural */
+    }
+
+        .inbox-table thead {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .inbox-table th {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+    .message-row {
+        border-bottom: 1px solid var(--border);
+        transition: all 0.2s;
+    }
+
+        .message-row:hover {
+            background: #f5f7ff;
+        }
+
+        .message-row td {
+            padding: 16px 20px;
+            vertical-align: middle;
+            white-space: nowrap; /* Alt satıra geçmeyi engeller */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Sığmayan yere ... koyar */
+        }
+
+    /* Sütun Genişlikleri */
+    .col-read {
+        width: 60px;
+        text-align: center !important;
+    }
+
+    .col-sender {
+        width: 30%;
+    }
+
+    .col-category {
+        width: 120px;
+    }
+
+    .col-subject {
+        width: auto;
+    }
+
+    .col-date {
+        width: 120px;
+        text-align: right !important;
+    }
+
+    .col-actions {
+        width: 110px;
+        text-align: center !important;
+    }
+
+    /* ── Badges & Status ── */
+    .cat-badge {
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .bg-edu {
+        background: #ffedd5;
+        color: #9a3412;
+    }
+
+    .bg-soc {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .bg-fin {
+        background: #dbeafe;
+        color: #1e40af;
+    }
+
+    .bg-def {
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .status-icon {
+        font-size: 18px;
+        transition: transform 0.2s;
+    }
+
+        .status-icon:hover {
+            transform: scale(1.2);
+        }
+
+    .btn-view {
+        background: #6366f1;
+        color: white !important;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+</style>
+
+<div class="inbox-wrapper">
+    <div class="container">
+        <div class="row">
+            @await Component.InvokeAsync("MessageSidebarComponentPartial")
+
+            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                <div class="inbox-toolbar">
+                    <div class="search-box">
+                        <i class="notika-icon notika-search search-icon-fixed"></i>
+                        <input type="text" id="catSearch" placeholder="Bu kategoride ara..." autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="info-banner">
+                    <i class="notika-icon notika-form"></i>
+                    <span>Bu kategoride toplam <strong>@Model.Count()</strong> mesaj listelendi</span>
+                </div>
+
+                <div class="inbox-card">
+                    <div class="table-responsive-custom">
+                        <table class="inbox-table">
+                            <thead>
+                                <tr>
+                                    <th class="col-read">Durum</th>
+                                    <th class="col-sender">Gönderen</th>
+                                    <th class="col-category">Kategori</th>
+                                    <th class="col-subject">Konu</th>
+                                    <th class="col-date">Tarih</th>
+                                    <th class="col-actions">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="message-row">
+                                        <td class="col-read">
+                                            <a href="/Message/MarkAsRead?messageId=@item.MessageId" style="text-decoration:none;">
+                                                @if (item.IsRead)
+                                                {
+                                                    <i class="glyphicon glyphicon-check status-icon" style="color: #20c997;" title="Okundu"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="glyphicon glyphicon-unchecked status-icon" style="color: #6c757d;" title="Okunmadı"></i>
+                                                }
+                                            </a>
+                                        </td>
+                                        <td class="col-sender" title="@item.SenderEmail">
+                                            <span style="font-weight: 600; color: var(--text-main);">@item.SenderEmail</span>
+                                        </td>
+                                        <td class="col-category">
+                                            @{
+                                                var badgeClass = item.Category.CategoryName switch
+                                                {
+                                                    "Eğitim" => "bg-edu",
+                                                    "Sosyal" => "bg-soc",
+                                                    "Finans" => "bg-fin",
+                                                    _ => "bg-def"
+                                                };
+                                            }
+                                            <span class="cat-badge @badgeClass">@item.Category.CategoryName</span>
+                                        </td>
+                                        <td class="col-subject">
+                                            <a href="/Message/MessageDetail?messageId=@item.MessageId"
+                                               style="color: var(--text-main); text-decoration: none; font-weight: @(item.IsRead ? "400" : "600")"
+                                               title="@item.Subject">
+                                                @item.Subject
+                                            </a>
+                                        </td>
+                                        <td class="col-date" style="color: var(--text-muted); font-size: 13px;">
+                                            @item.SendDate.ToString("dd.MM.yyyy")
+                                        </td>
+                                        <td class="col-actions">
+                                            <a href="/Message/MessageDetail?messageId=@item.MessageId" class="btn-view">
+                                                Aç
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#catSearch").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $(".message-row").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

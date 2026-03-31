@@ -1,0 +1,203 @@
+﻿@model UserEditViewModel
+
+@{
+    ViewData["Title"] = "EditProfile";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+    /* Hoşgeldin Kartı Tasarımı */
+    .welcome-card {
+        background: linear-gradient(135deg, #00c292 0%, #00ad82 100%);
+        color: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        margin-top: 30px;
+        position: sticky;
+        top: 20px;
+    }
+
+        .welcome-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        .welcome-card h2 {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome-card p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+    .user-info-mini {
+        margin-top: 25px;
+        text-align: left;
+        background: rgba(255,255,255,0.1);
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+        .user-info-mini div {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+    /* Form Düzenlemeleri */
+    .form-example-wrap {
+        border-radius: 15px !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+        border: none !important;
+    }
+
+    .nk-int-st input {
+        border-radius: 5px !important;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 20px;
+        border-left: 5px solid #28a745;
+    }
+</style>
+
+<div class="inbox-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-5 col-sm-12">
+                <div class="welcome-card">
+                    <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/img/post/1.jpg" : Model.ImageUrl)" alt="Profil Fotoğrafı">
+
+                    <h2>Hoş Geldin, <br /> @Model.Name @Model.Surname!</h2>
+                    <p>Profilini buradan yönetebilir, bilgilerini güncel tutarak güvenliğini sağlayabilirsin.</p>
+
+                    <div class="user-info-mini">
+                        <div><i class="fa fa-envelope"></i> @Model.Email</div>
+                        <div><i class="fa fa-user"></i> @Model.UserName</div>
+                        <div><i class="fa fa-map-marker-alt"></i> @(string.IsNullOrEmpty(Model.City) ? "Şehir Belirtilmedi" : Model.City)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-7 col-sm-12">
+                <div class="form-example-wrap mg-t-30">
+                    <div class="cmp-tb-hd cmp-int-hd">
+                        <h2> Profil Bilgilerini Düzenle</h2>
+                        <p>Aşağıdaki alanları kullanarak hesabını güncelleyebilirsin.</p>
+                    </div>
+
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Ad</label>
+                                    <div class="nk-int-st">
+                                        <input type="text" asp-for="Name" class="form-control" placeholder="Adınız">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Soyad</label>
+                                    <div class="nk-int-st">
+                                        <input type="text" asp-for="Surname" class="form-control" placeholder="Soyadınız">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Kullanıcı Adı</label>
+                                    <div class="nk-int-st">
+                                        <input type="text" asp-for="UserName" class="form-control" placeholder="Kullanıcı Adı">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Şehir</label>
+                                    <div class="nk-int-st">
+                                        <input type="text" asp-for="City" class="form-control" placeholder="Şehir">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Adresi</label>
+                            <div class="nk-int-st">
+                                <input type="email" asp-for="Email" class="form-control" placeholder="Email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefon Numarası</label>
+                            <div class="nk-int-st">
+                                <input type="text" asp-for="PhoneNumber" class="form-control" placeholder="Telefon">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fotoğraf URL</label>
+                            <div class="nk-int-st">
+                                <input type="text" asp-for="ImageUrl" class="form-control" placeholder="Fotoğraf Linki">
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Yeni Şifre</label>
+                                    <div class="nk-int-st">
+                                        <input type="password" asp-for="Passowrd" class="form-control" placeholder="******">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Şifre Tekrar</label>
+                                    <div class="nk-int-st">
+                                        <input type="password" asp-for="PasswordConfirm" class="form-control" placeholder="******">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span asp-validation-for="PasswordConfirm" class="text-danger small"></span>
+
+                        @if (TempData["success"]?.ToString() == "True")
+                        {
+                            <div class="alert alert-success animate__animated animate__fadeIn">
+                                <i class="fa fa-check-circle"></i> Bilgileriniz başarıyla güncellendi.
+                            </div>
+                        }
+
+                        <div class="mg-t-20 text-right">
+                            <button class="btn btn-success btn-lg notika-btn-success">
+                                Değişiklikleri Kaydet
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

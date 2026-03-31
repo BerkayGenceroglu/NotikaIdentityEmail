@@ -1,0 +1,115 @@
+﻿@model List<RoleAssignViewModel>
+@{
+    ViewData["Title"] = "AssignRolePage";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+<style>
+    .role-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.15s;
+        background: #fff;
+        margin-bottom: 0;
+    }
+
+        .role-card:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .role-card input[type="checkbox"] {
+            accent-color: #178AF0;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .role-card.active {
+            background: #EBF5FF;
+            border-color: #178AF0;
+        }
+
+        .role-card span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+    .save-btn {
+        background: #178AF0;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.15s;
+    }
+
+        .save-btn:hover {
+            opacity: 0.9;
+        }
+</style>
+
+<div class="normal-table-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12 mx-auto mt-4">
+
+                <div style="background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem 1.75rem;">
+
+                    <div style="margin-bottom:1.25rem; padding-bottom:1rem; border-bottom:1px solid #e2e8f0;">
+                        <h5 style="margin:0 0 4px; font-weight:600; color:#1e293b;">Kullanıcı - Rol Ataması</h5>
+                        <p style="margin:0; font-size:13px; color:#64748b;">Sisteme kayıtlı kullanıcı için rol seçimi yapınız.</p>
+                    </div>
+                    <form method="post">
+                        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:10px; margin-bottom:1.25rem;">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                <label class="role-card @(Model[i].RoleExist ? "active" : "")" id="card_@Model[i].RoleId">
+                                    <input type="hidden" name="[@i].RoleId" value="@Model[i].RoleId" />
+                                    <input type="hidden" name="[@i].RoleName" value="@Model[i].RoleName" />
+                                    <input type="checkbox" name="[@i].RoleExist" value="true"
+                                           @(Model[i].RoleExist ? "checked" : "")
+                                           style="accent-color:#178AF0; width:16px; height:16px;" />
+                                    <span>@Model[i].RoleName</span>
+                                </label>
+                            }
+                        </div>
+
+                        <div style="display:flex; align-items:center; justify-content:space-between; padding-top:1rem; border-top:1px solid #e2e8f0;">
+                            <button type="submit" class="save-btn">Değişiklikleri Kaydet</button>
+                            <a href="/Role/AllUserList" class="btn btn-warning">Geri Dön</a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (TempData["RoleAssignProcess"] != null)
+{
+    <script>
+        Swal.fire({
+            text: '@Html.Raw(TempData["RoleAssignProcess"].ToString())',
+            icon: 'success',
+            toast: true,
+            position: 'top-end',
+            timer: 3000,
+            showConfirmButton: false,
+            timerProgressBar: true
+
+        });
+    </script>
+}

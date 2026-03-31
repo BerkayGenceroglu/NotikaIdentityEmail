@@ -1,0 +1,118 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "UpdateCategory";
+    Layout = "~/Views/UserLayout/Index.cshtml";
+}
+
+
+<style>
+
+    .alert-danger {
+        background: #85C79A;
+        border: 1px solid #519A66;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 18px;
+        display: none;
+    }
+
+        .alert-danger:has(.text-white:not(:empty)) {
+            display: block;
+        }
+
+    .text-white {
+        padding-inline-start: 5px;
+        color: #48A111;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .validation-msg {
+        font-size: 12px;
+        color: #C00707;
+        margin-top: 6px;
+        padding: 6px 10px;
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+        border-radius: 8px;
+        display: none;
+    }
+
+        .validation-msg:not(:empty) {
+            display: block;
+        }
+</style>
+
+<div class="inbox-area">
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-example-wrap mg-t-30">
+                        <div class="cmp-tb-hd cmp-int-hd">
+                            <h2 class="text-center">Kategori Güncelle</h2>
+                            <br />
+                            <p>Lütfen bilgilerinizi eksiksiz bir şekilde doldurunuz. Doldurma işlemini tamamladıktan sonra bilgilerinizi kontrol ederek Güncelleme işlemini gerçekleştirebilirsiniz.</p>
+                        </div>
+                        <form method="post">
+                            <input type="hidden" asp-for="CategoryId" />
+                            <div class="form-example-int form-horizental">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                            <label class="hrzn-fm">Kategori: </label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                            <div class="nk-int-st">
+                                                <input type="text" asp-for="CategoryName" class="form-control input-sm" placeholder="Kategori Giriniz">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                            <label class="hrzn-fm">İkon: </label>
+                                        </div>
+                                        <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                            <div class="nk-int-st">
+                                                <input type="text" asp-for="CategoryIcon" class="form-control input-sm" placeholder="Kategori İkon">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-example-int mg-t-15">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                                    </div>
+                                    <div class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
+                                        <button class="btn btn-success notika-btn-success">Kategori Kaydet</button>
+                                        <a href="/Category/CategoryList" class="btn btn-warning">Geri Dön</a>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+

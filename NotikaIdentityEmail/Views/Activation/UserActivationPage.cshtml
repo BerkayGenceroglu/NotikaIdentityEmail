@@ -1,0 +1,767 @@
+﻿
+@model EmailVerificationViewModel
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <title>Notika – E-posta Doğrulama</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-200: #a7f3d0;
+            --emerald-300: #6ee7b7;
+            --emerald-400: #34d399;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            --teal-400: #2dd4bf;
+            --teal-500: #14b8a6;
+            --white: #ffffff;
+            --text-dark: #0c2e28;
+            --text-mid: #1e6b56;
+            --text-soft: #6bb89e;
+            --card-bg: rgba(255,255,255,0.74);
+            --radius: 22px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse 80% 60% at 10% 20%, #bbf7e0 0%, transparent 60%), radial-gradient(ellipse 70% 50% at 90% 80%, #99f6e4 0%, transparent 55%), radial-gradient(ellipse 60% 70% at 55% 10%, #d1fae5 0%, transparent 50%), linear-gradient(160deg, #d0f9ee 0%, #f0fdf9 50%, #ccfbf1 100%);
+            padding: 24px;
+            overflow: hidden;
+        }
+
+            body::before, body::after {
+                content: '';
+                position: fixed;
+                border-radius: 50%;
+                filter: blur(60px);
+                pointer-events: none;
+                z-index: 0;
+                animation: float 9s ease-in-out infinite alternate;
+            }
+
+            body::before {
+                width: 420px;
+                height: 420px;
+                background: rgba(52,211,153,0.22);
+                top: -110px;
+                left: -110px;
+            }
+
+            body::after {
+                width: 360px;
+                height: 360px;
+                background: rgba(45,212,191,0.17);
+                bottom: -90px;
+                right: -90px;
+                animation-delay: -4.5s;
+            }
+
+        @@keyframes float {
+            from
+
+        {
+            transform: translate(0, 0) scale(1);
+        }
+
+        to {
+            transform: translate(18px, 22px) scale(1.04);
+        }
+
+        }
+
+        @@keyframes slideUp {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        @@keyframes pulse-ring {
+            0%
+
+        {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(52,211,153,0.5);
+        }
+
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 14px rgba(52,211,153,0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(52,211,153,0);
+        }
+
+        }
+
+        @@keyframes shake {
+            0%,100%
+
+        {
+            transform: translateX(0);
+        }
+
+        20% {
+            transform: translateX(-6px);
+        }
+
+        40% {
+            transform: translateX(6px);
+        }
+
+        60% {
+            transform: translateX(-4px);
+        }
+
+        80% {
+            transform: translateX(4px);
+        }
+
+        }
+
+        @@keyframes success-pop {
+            0%
+
+        {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        70% {
+            transform: scale(1.12);
+            opacity: 1;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        }
+
+        .dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(16,185,129,0.10) 1px, transparent 1px);
+            background-size: 36px 36px;
+        }
+
+        /* Card */
+        .card {
+            position: relative;
+            z-index: 1;
+            background: var(--card-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.88);
+            border-radius: var(--radius);
+            padding: 48px 44px 42px;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 4px 6px rgba(16,185,129,0.06), 0 24px 60px rgba(5,150,105,0.14), inset 0 1px 0 rgba(255,255,255,0.92);
+            animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) both;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 34px;
+        }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--emerald-400), var(--emerald-600));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(16,185,129,0.42);
+        }
+
+            .brand-icon svg {
+                width: 22px;
+                height: 22px;
+                fill: white;
+            }
+
+        .brand-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+            .brand-name span {
+                color: var(--emerald-500);
+            }
+
+        /* Email icon bubble */
+        .icon-bubble {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 18px;
+            background: linear-gradient(135deg, var(--emerald-400), var(--teal-500));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 28px rgba(16,185,129,0.38);
+            animation: pulse-ring 2.4s ease-in-out infinite;
+        }
+
+            .icon-bubble svg {
+                width: 32px;
+                height: 32px;
+                stroke: white;
+                fill: none;
+                stroke-width: 1.8;
+            }
+
+        .header h2 {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 13.5px;
+            color: var(--text-soft);
+            line-height: 1.65;
+        }
+
+            .header p strong {
+                color: var(--text-mid);
+                font-weight: 600;
+            }
+
+        /* OTP inputs */
+        .otp-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-mid);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .otp-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .otp-input {
+            width: 54px;
+            height: 62px;
+            text-align: center;
+            font-family: 'Sora', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+            background: rgba(236,253,245,0.75);
+            border: 2px solid rgba(16,185,129,0.20);
+            border-radius: 14px;
+            outline: none;
+            caret-color: var(--emerald-500);
+            transition: all 0.22s ease;
+            -moz-appearance: textfield;
+        }
+
+            .otp-input::-webkit-outer-spin-button,
+            .otp-input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+            }
+
+            .otp-input:focus {
+                border-color: var(--emerald-400);
+                background: white;
+                box-shadow: 0 0 0 4px rgba(52,211,153,0.18);
+                transform: translateY(-2px);
+            }
+
+            .otp-input.filled {
+                border-color: var(--emerald-500);
+                background: rgba(209,250,229,0.6);
+            }
+
+            .otp-input.error {
+                border-color: #f87171;
+                background: rgba(254,226,226,0.5);
+                animation: shake 0.4s ease;
+            }
+
+        /* Divider dots */
+        .otp-sep {
+            display: flex;
+            align-items: center;
+            color: var(--text-soft);
+            font-size: 22px;
+            font-weight: 300;
+            padding-bottom: 4px;
+        }
+
+        /* Timer */
+        .timer-row {
+            text-align: center;
+            margin: 16px 0 22px;
+            font-size: 13px;
+            color: var(--text-soft);
+        }
+
+        .timer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(209,250,229,0.7);
+            border: 1px solid rgba(52,211,153,0.25);
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 13px;
+            color: var(--emerald-600);
+            font-weight: 600;
+        }
+
+            .timer-badge svg {
+                width: 14px;
+                height: 14px;
+                stroke: var(--emerald-500);
+                fill: none;
+                stroke-width: 2;
+            }
+
+        #countdown {
+            font-variant-numeric: tabular-nums;
+            min-width: 32px;
+            display: inline-block;
+        }
+
+        /* Alert */
+        .alert-danger {
+            background: rgba(239,68,68,0.09);
+            border: 1px solid rgba(239,68,68,0.22);
+            border-radius: 11px;
+            padding: 11px 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+            .alert-danger.show {
+                display: block;
+            }
+
+        .alert-text {
+            color: #b91c1c;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* Submit */
+        .btn-verify {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--emerald-400) 0%, var(--emerald-600) 100%);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Sora', sans-serif;
+            cursor: pointer;
+            letter-spacing: 0.2px;
+            box-shadow: 0 8px 26px rgba(16,185,129,0.40);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+            .btn-verify::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+                border-radius: inherit;
+            }
+
+            .btn-verify:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 14px 36px rgba(16,185,129,0.50);
+            }
+
+            .btn-verify:active {
+                transform: translateY(0);
+                box-shadow: 0 4px 12px rgba(16,185,129,0.28);
+            }
+
+            .btn-verify svg {
+                width: 18px;
+                height: 18px;
+                stroke: white;
+                fill: none;
+                stroke-width: 2.2;
+            }
+
+        /* Resend */
+        .resend-row {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13.5px;
+            color: var(--text-soft);
+        }
+
+        .resend-btn {
+            background: none;
+            border: none;
+            color: var(--emerald-600);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            margin-left: 4px;
+            transition: color 0.2s;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+            .resend-btn:hover {
+                color: var(--emerald-700);
+            }
+
+            .resend-btn:disabled {
+                color: var(--text-soft);
+                cursor: default;
+                text-decoration: none;
+            }
+
+        /* Back link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--text-soft);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+            .back-link:hover {
+                color: var(--emerald-600);
+            }
+
+            .back-link svg {
+                width: 14px;
+                height: 14px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 2;
+            }
+
+        /* Success overlay */
+        .success-overlay {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(6px);
+            border-radius: var(--radius);
+            z-index: 10;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+            .success-overlay.show {
+                display: flex;
+            }
+
+        .success-circle {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--emerald-400), var(--teal-500));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: success-pop 0.5s cubic-bezier(0.22,1,0.36,1) both;
+            box-shadow: 0 10px 32px rgba(16,185,129,0.42);
+        }
+
+            .success-circle svg {
+                width: 38px;
+                height: 38px;
+                stroke: white;
+                fill: none;
+                stroke-width: 2.5;
+            }
+
+        .success-overlay h3 {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .success-overlay p {
+            font-size: 13.5px;
+            color: var(--text-soft);
+        }
+    </style>
+</head>
+<body>
+    <div class="dots"></div>
+
+    <div class="card">
+
+        <!-- Success overlay -->
+        <div class="success-overlay" id="successOverlay">
+            <div class="success-circle">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <h3>Doğrulama Başarılı!</h3>
+            <p>Yönlendiriliyorsunuz…</p>
+        </div>
+
+        <!-- Brand -->
+        <div class="header">
+            <div class="brand-mark">
+                <div class="brand-icon">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" /></svg>
+                </div>
+                <span class="brand-name">Noti<span>ka</span></span>
+            </div>
+
+            <div class="icon-bubble">
+                <svg viewBox="0 0 24 24">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <polyline points="2,4 12,13 22,4" />
+                </svg>
+            </div>
+
+            <h2>E-postanızı Doğrulayın</h2>
+            <p>
+                <strong>Mail</strong> Adresinize<br>
+                gönderilen 6 haneli kodu giriniz.
+            </p>
+        </div>
+
+        <form method="post" id="otpForm">
+            <span class="otp-label">Doğrulama Kodu</span>
+
+            <div class="otp-row">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp1" autocomplete="one-time-code">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp2">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp3">
+                <span class="otp-sep">·</span>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp4">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp5">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" id="otp6">
+            </div>
+
+            <!-- Hidden field for model binding -->
+            <input type="hidden" asp-for="CodeParameter" id="hiddenCode">
+
+            <div class="timer-row">
+                <span class="timer-badge">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                    Kodun geçerlilik süresi: <span id="countdown">04:59</span>
+                </span>
+            </div>
+
+            <div class="alert-danger" id="alertBox">
+                <div class="alert-text" id="alertText"></div>
+            </div>
+
+            <button type="submit" class="btn-verify" id="verifyBtn">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" /></svg>
+                Kodu Doğrula
+            </button>
+        </form>
+
+        <div class="resend-row">
+            Kod gelmedi mi?
+            <button class="resend-btn" id="resendBtn" disabled onclick="resendCode()">Tekrar Gönder</button>
+        </div>
+
+        <a href="/Login/UserLogin" class="back-link">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+            Giriş sayfasına dön
+        </a>
+    </div>
+
+    <script>
+        /* ── OTP Input Logic ── */
+        const inputs = document.querySelectorAll('.otp-input');
+        const hiddenCode = document.getElementById('hiddenCode');
+
+        inputs.forEach((inp, idx) => {
+            inp.addEventListener('input', e => {
+                const val = e.target.value.replace(/\D/g, '');
+                inp.value = val.slice(-1);
+                inp.classList.toggle('filled', inp.value !== '');
+                if (val && idx < inputs.length - 1) inputs[idx + 1].focus();
+                syncHidden();
+            });
+
+            inp.addEventListener('keydown', e => {
+                if (e.key === 'Backspace' && !inp.value && idx > 0) {
+                    inputs[idx - 1].focus();
+                    inputs[idx - 1].value = '';
+                    inputs[idx - 1].classList.remove('filled');
+                    syncHidden();
+                }
+                if (e.key === 'ArrowLeft'  && idx > 0) inputs[idx - 1].focus();
+                if (e.key === 'ArrowRight' && idx < inputs.length - 1) inputs[idx + 1].focus();
+            });
+
+            inp.addEventListener('paste', e => {
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '');
+                paste.split('').slice(0, 6).forEach((ch, i) => {
+                    if (inputs[i]) { inputs[i].value = ch; inputs[i].classList.add('filled'); }
+                });
+                syncHidden();
+                const next = Math.min(paste.length, 5);
+                inputs[next].focus();
+            });
+        });
+
+        function syncHidden() {
+            hiddenCode.value = Array.from(inputs).map(i => i.value).join('');
+        }
+
+        /* ── Countdown Timer ── */
+        let totalSeconds = 299;
+        let timerInterval;
+        const countdownEl = document.getElementById('countdown');
+        const resendBtn   = document.getElementById('resendBtn');
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    countdownEl.textContent = '00:00';
+                    resendBtn.disabled = false;
+                    return;
+                }
+                totalSeconds--;
+                const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+                const s = String(totalSeconds % 60).padStart(2, '0');
+                countdownEl.textContent = `${m}:${s}`;
+            }, 1000);
+        }
+
+        startTimer();
+
+        function resendCode() {
+            totalSeconds = 299;
+            resendBtn.disabled = true;
+            startTimer();
+            // TODO: AJAX call to resend code
+            showInfo('Yeni kod gönderildi!');
+        }
+
+        function showInfo(msg) {
+            const box = document.getElementById('alertBox');
+            const txt = document.getElementById('alertText');
+            box.style.background   = 'rgba(16,185,129,0.1)';
+            box.style.borderColor  = 'rgba(16,185,129,0.3)';
+            txt.style.color        = '#065f46';
+            txt.textContent        = msg;
+            box.classList.add('show');
+            setTimeout(() => box.classList.remove('show'), 3000);
+        }
+
+        /* ── Form Submit ── */
+        document.getElementById('otpForm').addEventListener('submit', function (e) {
+            const code = Array.from(inputs).map(i => i.value).join('');
+
+            if (code.length < 6) {
+                e.preventDefault();
+                inputs.forEach(i => { if (!i.value) i.classList.add('error'); });
+                const box  = document.getElementById('alertBox');
+                const txt  = document.getElementById('alertText');
+                box.style.background  = 'rgba(239,68,68,0.09)';
+                box.style.borderColor = 'rgba(239,68,68,0.22)';
+                txt.style.color       = '#b91c1c';
+                txt.textContent       = 'Lütfen 6 haneli doğrulama kodunu eksiksiz giriniz.';
+                box.classList.add('show');
+                return;
+            }
+
+            // Clear error state on submit
+            inputs.forEach(i => i.classList.remove('error'));
+        });
+
+        inputs.forEach(i => i.addEventListener('focus', () => i.classList.remove('error')));
+
+        /* ── Stagger animation ── */
+        ['.icon-bubble','.header h2','.header p','.otp-label','.otp-row','.timer-row','.btn-verify','.resend-row','.back-link']
+            .forEach((sel, i) => {
+                const el = document.querySelector(sel);
+                if (!el) return;
+                el.style.opacity   = '0';
+                el.style.transform = 'translateY(16px)';
+                el.style.transition = `opacity 0.45s ease ${0.1 + i * 0.07}s, transform 0.45s ease ${0.1 + i * 0.07}s`;
+                setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 60);
+            });
+    </script>
+</body>
+</html>

@@ -278,7 +278,7 @@ mesaj içeriğine tıklayınca mesaj açılır
 ### 📤 Giden Kutusu (Sent)
 Kullanıcının gönderdiği tüm maillerin listelendiği ekran.
 
-<img width="1280" height="833" alt="image" src="https://github.com/user-attachments/assets/9fcc14e8-cd35-48cf-bfde-819fb7872a90" />
+
 <img width="1533" height="955" alt="image" src="https://github.com/user-attachments/assets/8aa9ec7d-35d0-4982-b628-52467bc4b4db" />
 
 
@@ -290,7 +290,6 @@ Kullanıcının kaydettiği taslak maillerin listelendiği ve düzenlenebildiği
 
 <img width="1247" height="826" alt="Taslak Olarak Kaydet" src="https://github.com/user-attachments/assets/cfc0a2c3-1696-4b9c-8191-b714fc83cda7" />
 
-<img width="1280" height="842" alt="taslak düzenle" src="https://github.com/user-attachments/assets/70ad4c91-b7a2-444e-969c-1965f5b5ff6f" />
 <img width="1411" height="959" alt="image" src="https://github.com/user-attachments/assets/f9c98c93-fe54-4e6e-b422-06ae566659c0" />
 
 ---

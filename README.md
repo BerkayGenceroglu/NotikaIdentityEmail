@@ -270,7 +270,8 @@ okundu okunmadı soldan tıklayarak yapabiliriz
 <img width="1602" height="956" alt="gelen kutusu" src="https://github.com/user-attachments/assets/6b7e7ffc-3655-43bf-b326-58e80daf542b" />
 mesaj içeriğine tıklayınca mesaj açılır
 
-<img width="1280" height="1014" alt="mesaj detail2" src="https://github.com/user-attachments/assets/7e51ca5e-15b1-4400-bba0-7456d2ea4e31" />
+<img width="1583" height="961" alt="image" src="https://github.com/user-attachments/assets/b0271771-dd16-4b0e-beaf-a90b4ab3e862" />
+
 
 ---
 
@@ -278,6 +279,7 @@ mesaj içeriğine tıklayınca mesaj açılır
 Kullanıcının gönderdiği tüm maillerin listelendiği ekran.
 
 <img width="1280" height="833" alt="image" src="https://github.com/user-attachments/assets/9fcc14e8-cd35-48cf-bfde-819fb7872a90" />
+<img width="1533" height="955" alt="image" src="https://github.com/user-attachments/assets/8aa9ec7d-35d0-4982-b628-52467bc4b4db" />
 
 
 ---

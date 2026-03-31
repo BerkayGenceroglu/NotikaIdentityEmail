@@ -337,10 +337,11 @@ Her yoruma ait skor ve etiket (Temiz / Şüpheli / Zararlı) admin panelinden ta
 
 ---
 
-### 👥 Rol Yönetimi (Admin)
-Yöneticinin kullanıcılara rol atayabildiği admin paneli ekranı.
+### 👥 Yorum Yönetimi (Admin)
+Yöneticinin yorumlara göre listeledi.
 
 > 📸 *(Ekran görüntüsü buraya eklenecek)*
+<img width="1588" height="958" alt="image" src="https://github.com/user-attachments/assets/396b007b-87eb-4479-99dc-c12e95757f81" />
 
 ---
 

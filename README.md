@@ -232,15 +232,20 @@ Tüm alanlar ModelState ile doğrulanır; kayıt sonrası doğrulama e-postası 
 
 > <img width="1381" height="965" alt="Register" src="https://github.com/user-attachments/assets/8cec2f29-fd21-47c5-811c-3bc95f4585a0" />
 
+<img width="878" height="793" alt="Onay" src="https://github.com/user-attachments/assets/26f47c8e-4a8a-43c5-bb04-34e369ce4f2e" />
 
+<img width="1669" height="807" alt="emailKod" src="https://github.com/user-attachments/assets/5c62bd5f-cec0-4c31-83d7-07b6f647fd3b" />
+
+<img width="1211" height="693" alt="Mail Doğrulandı" src="https://github.com/user-attachments/assets/051fe12f-46c3-4b6d-ba34-89a201199da5" />
 
 ---
 
 ### 🔐 Giriş Yap (Login)
 E-posta / kullanıcı adı ve şifre ile güvenli giriş ekranı.
 E-postası doğrulanmamış kullanıcılara uyarı mesajı gösterilir.
+<img width="811" height="737" alt="image" src="https://github.com/user-attachments/assets/a6e090ed-ec5a-41a4-8504-9c9acb99881e" />
 
-> 📸 *(Ekran görüntüsü buraya eklenecek)*
+
 
 ---
 

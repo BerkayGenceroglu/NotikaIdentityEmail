@@ -104,7 +104,7 @@ namespace NotikaIdentityEmail.Controllers
 
             SmtpClient smtpClient = new SmtpClient();
             smtpClient.Connect("smtp.gmail.com", 587, false); // ✅ smtp.gmail.com (@ değil .)
-            smtpClient.Authenticate("projectbrky123@gmail.com", "dbcgxsnixoyclcku");
+            smtpClient.Authenticate("projectbrky123@gmail.com", "");
             smtpClient.Send(mimeMessage);    // ✅ Gönder
             smtpClient.Disconnect(true);     // ✅ Bağlantıyı kapat
 

@@ -3,7 +3,7 @@
 <p align="center">
   ASP.NET Core MVC ve ASP.NET Core Identity altyapısı ile geliştirilmiş, ToxicBERT yapay zekâ modeli entegrasyonu sayesinde kullanıcı yorumları ve mesajlar üzerinde zehirli içerik tespiti yapabilen; gelen kutusu, giden kutusu, taslaklar ve silinenler gibi tam özellikli mail yönetimi, rol tabanlı yetkilendirme, detaylı authorization kontrolleri, ModelState doğrulamaları ve admin paneli ile kullanıcı ve yetki yönetimi sunan modern, güvenli ve ölçeklenebilir bir web uygulamasıdır.
 </p>
-
+ 
 ---
 
 ## 🧾 Proje Tanıtımı
